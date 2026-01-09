@@ -1,69 +1,28 @@
-//3. That merges lines alternatively from 2 files and stores it in a resultant file.
+3.Write a program in MPI to toggle the character of a given string indexed by the rank of the process. Hint: Suppose the string is HELLO and there are 5 processes, then process toggle H to h, process I toggle E to 'e and so on.
+	#include <mpi.h>
 #include <stdio.h>
+#include <ctype.h>
 
-void main()
+int main(int argc, char *argv[])
 {
-	FILE * fptr1, * fptr2, * fptr3;
-	char fileName1[100], fileName2[100], fileName3[100];
-	printf("Enter first filename to open for reading ");
-	scanf("%s", fileName1);
-	printf("Enter second filename to open for reading ");
-	scanf("%s", fileName2);
-	printf("Enter filename to open for writing ");
-	scanf("%s", fileName3);
-	fptr1 = fopen(fileName1, "r");
-	fptr2 = fopen(fileName2, "r");
-	fptr3 = fopen(fileName3, "w+");
+    int rank, size;
+    char str[] = "HELLO";
 
-	if ((fptr1 != NULL) && (fptr2 != NULL))
-	{
-		char ch1 = fgetc(fptr1), ch2;
-		int flag = 1;
-		while (ch1 != EOF && ch2 != EOF)
-		{
-			if (flag)
-			{
-				while (ch1 != EOF && ch1 != '\n')
-				{
-					fputc(ch1, fptr3);
-					ch1 = fgetc(fptr1);
-				}
-				fputc('\n', fptr3);
-				ch2 = fgetc(fptr2);
-				flag = 0;
-			}
-			else
-			{
-				while (ch2 != EOF && ch2 != '\n')
-				{
-					fputc(ch2, fptr3);
-					ch2 = fgetc(fptr2);
-				}
-				fputc('\n', fptr3);
-				ch1 = fgetc(fptr1);
-				flag = 1;
-			}
-		}
-		while (ch1 != EOF)
-		{
-			fputc(ch1, fptr3);
-			ch1 = fgetc(fptr1);
-		}
-		while (ch2 != EOF)
-		{
-			fputc(ch2, fptr3);
-			ch2 = fgetc(fptr2);
-		}
-		printf("Files merged\n");
-		fclose(fptr1);
-		fclose(fptr2);
-		fclose(fptr3);
-	}
-	else
-	{
-		if (fptr1 == NULL)
-			printf("Could not open file: %s", fileName1);
-		else
-			printf("Could not open file: %s", fileName2);
-	}
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    if (rank < 5)
+    {
+        char ch = str[rank];
+        if (isupper(ch))
+            ch = tolower(ch);
+        else
+            ch = toupper(ch);
+
+        printf("Process %d toggled character: %c\n", rank, ch);
+    }
+
+    MPI_Finalize();
+    return 0;
 }
