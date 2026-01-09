@@ -1,33 +1,38 @@
-//2.To reverse the file contents and store in another file. Also display the size of file using file handling function.
+//2.Write a program in MPI to simulate simple calculator. Perform each operation using different process in parallel.
+#include <mpi.h>
 #include <stdio.h>
 
-void main()
+int main(int argc, char *argv[])
 {
-	FILE * fptr1, * fptr2;
-	char fileName1[100], fileName2[100];
-	printf("Enter filename to open for reading ");
-	scanf("%s", fileName1);
-	printf("Enter filename to open for writing ");
-	scanf("%s", fileName2);
-	fptr1 = fopen(fileName1, "r");
-	if (fptr1 != NULL) {
-		fptr2 = fopen(fileName2, "w+");
-		char ch;
-		int i = -1;
-		while (ftell(fptr1) != 1)
-		{
-			fseek(fptr1, i--, SEEK_END);
-			ch = fgetc(fptr1);
-			fputc(ch, fptr2);
-		}
-		printf("%s contains reverse of %s\n", fileName2, fileName1);
-		fseek(fptr1, 0, SEEK_END);
-		printf("Size of %s: %ld bytes\n", fileName1, ftell(fptr1));
-		fclose(fptr1);
-		fclose(fptr2);
-	}
-	else
-	{
-		printf("Could not open file: %s", fileName1);
-	}
+    int rank;
+    int a, b;
+
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+    /* Take input only from rank 0 */
+    if (rank == 0) {
+        printf("Enter two integers: ");
+        scanf("%d %d", &a, &b);
+    }
+
+    /* Broadcast values to all processes */
+    MPI_Bcast(&a, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&b, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
+    if (rank == 0)
+        printf("Addition: %d + %d = %d\n", a, b, a + b);
+    else if (rank == 1)
+        printf("Subtraction: %d - %d = %d\n", a, b, a - b);
+    else if (rank == 2)
+        printf("Multiplication: %d * %d = %d\n", a, b, a * b);
+    else if (rank == 3) {
+        if (b != 0)
+            printf("Division: %d / %d = %d\n", a, b, a / b);
+        else
+            printf("Division by zero error\n");
+    }
+
+    MPI_Finalize();
+    return 0;
 }
