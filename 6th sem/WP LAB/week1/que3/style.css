@@ -1,0 +1,73 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    background: linear-gradient(#aabbee, white);
+}
+
+/* striped bar like image */
+/* ===== STRIPED BAR ===== */
+.stripe-bar {
+    height: 60px;
+    background-image: repeating-linear-gradient(
+        -45deg,
+        black 0px,
+        black 12px,
+        #336699 12px,
+        #336699 24px
+    );
+}
+
+.top-header {
+    background: linear-gradient(#3a5f9f, #6b7fbf);
+    padding: 10px;
+}
+
+.logo-text {
+    color: white;
+    font-style: italic;
+    margin-left: 20px;
+}
+
+.section-title {
+    color: #224488;
+    font-style: italic;
+}
+
+
+.logo-text {
+    color: white;
+    font-style: italic;
+    margin-left: 20px;
+}
+
+.main {
+    padding: 20px;
+}
+
+.section-title {
+    color: #224488;
+    font-style: italic;
+}
+
+/* video gallery */
+.video-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.card {
+    background: #dde5ff;
+    padding: 10px;
+    border: 2px solid #224488;
+}
+
+video {
+    width: 300px;
+    height: 170px;
+}
+
+
+
+
+
