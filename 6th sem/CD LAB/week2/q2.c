@@ -1,3 +1,4 @@
+//2. To discard preprocessor directives from the given input ‘C’ file.
 #include <stdio.h>
 
 void main()
