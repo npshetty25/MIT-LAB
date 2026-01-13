@@ -1,3 +1,4 @@
+//1. That takes a file as input and replaces blank spaces and tabs by single space and writes the output to a file
 #include <stdio.h>
 
 void main() {
