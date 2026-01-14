@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern JQuery Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .calculator {
+            background-color: #696565;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 320px;
+        }
+
+        #display {
+            width: 100%;
+            height: 60px;
+            font-size: 24px;
+            text-align: right;
+            border: none;
+            background: #2d2d2d;
+            color: #00ff88;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            height: 60px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            background: #c50404;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        .operator {
+            background: #f39c12;
+            color: white;
+        }
+
+        .operator:hover {
+            background: #e67e22;
+        }
+
+        .equal {
+            background: #00ff88;
+            color: #121212;
+            grid-column: span 2;
+        }
+
+        .clear {
+            background: #e74c3c;
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" readonly placeholder="0">
+    <div class="buttons">
+        <button class="clear">C</button>
+        <button class="operator">/</button>
+        <button class="operator">*</button>
+        
+        <button class="num">7</button>
+        <button class="num">8</button>
+        <button class="num">9</button>
+        <button class="operator">-</button>
+        
+        <button class="num">4</button>
+        <button class="num">5</button>
+        <button class="num">6</button>
+        <button class="operator">+</button>
+        
+        <button class="num">1</button>
+        <button class="num">2</button>
+        <button class="num">3</button>
+        <button class="num">0</button>
+        
+        <button class="num">.</button>
+        <button class="equal">=</button>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    let currentInput = "";
+
+    // Handle Number and Decimal clicks
+    $('.num, .operator').click(function() {
+        let val = $(this).text();
+        currentInput += val;
+        $('#display').val(currentInput);
+    });
+
+    // Handle Clear button
+    $('.clear').click(function() {
+        currentInput = "";
+        $('#display').val("");
+    });
+
+    // Handle Calculation (=)
+    $('.equal').click(function() {
+        try {
+            // eval() parses the string as a mathematical expression
+            let result = eval(currentInput);
+            $('#display').val(result);
+            currentInput = result.toString();
+        } catch (error) {
+            $('#display').val("Error");
+            currentInput = "";
+        }
+    });
+});
+</script>
+
+</body>
+</html>
