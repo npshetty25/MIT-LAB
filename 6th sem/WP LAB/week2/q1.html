@@ -1,0 +1,130 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jQuery Animation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            overflow-x: hidden; /* Prevents scrollbar during animation */
+        }
+
+        #action-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: background 0.3s ease;
+        }
+
+        #action-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Container to keep table and image together */
+        #move-container {
+            position: relative; /* Necessary for jQuery .animate() left/right */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            right: -200px; /* Start slightly off-center to the right */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 400px;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #343a40;
+            color: white;
+        }
+
+        /* Objective 2: Alternate row colors (Zebra Striping) */
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e9ecef;
+        }
+
+        img {
+            width: 400px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <button id="action-btn">Move Elements Left</button>
+
+    <div id="move-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Web Design</td>
+                    <td>Active</td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td>Data Entry</td>
+                    <td>Pending</td>
+                    <td>Medium</td>
+                </tr>
+                <tr>
+                    <td>SEO Audit</td>
+                    <td>Complete</td>
+                    <td>Low</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <img src="https://images.unsplash.com/photo-1767805504153-73e4a6e4ccc1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Random Modern Image">
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#action-btn').click(function() {
+                // Moving the container from current position to the left
+                $('#move-container').animate({
+                    right: '400px',
+                    opacity: '0.8'
+                }, 1000); // 1000ms = 1 second duration
+                
+                $(this).text("Moved!");
+            });
+        });
+    </script>
+
+</body>
+</html>
