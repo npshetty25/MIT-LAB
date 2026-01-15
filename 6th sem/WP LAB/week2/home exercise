@@ -1,0 +1,233 @@
+Lab 2 - Home Assignments 
+Nirav - 230905213 - A1
+1) Design a webpage. The page contains:
+a. Dropdown list with HP, Nokia, Samsung, Motorola, Apple as items.
+b. Checkbox with Mobile and Laptop as items. Textbox where you enter quantity.
+c. There is a button with text as ‘Produce Bill’.
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Product Billing Page</title>
+ <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+ <script>
+ $(document).ready(function () {
+ $("#billBtn").click(function () {
+ var company = $("#company").val();
+ var quantity = $("#quantity").val();
+ var selected = [];
+ $("input[name='type']:checked").each(function () {
+ selected.push($(this).val());
+ });
+ if (quantity === "" || selected.length === 0) {
+ alert("Please select item type and enter quantity");
+ return;
+ }
+ var output =
+ "<b>Bill Details</b><br>" +
+ "Brand: " + company + "<br>" +
+ "Item: " + selected.join(" / ") + "<br>" +
+ "Quantity: " + quantity;
+ $("#resultBox").html(output).fadeIn();
+ });
+ });
+ </script>
+</head>
+<body style="
+ font-family: Arial;
+ background:#eef1f4;
+ height:100vh;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+">
+<div style="
+ background:white;
+ padding:25px;
+ width:350px;
+ border-radius:10px;
+ box-shadow:0 6px 15px rgba(0,0,0,0.15);
+">
+ <h3 style="margin-top:0; text-align:center;">Produce Bill</h3>
+ <label>Select Company:</label><br>
+ <select id="company" style="width:100%; padding:6px;">
+ <option>HP</option>
+ <option>Nokia</option>
+ <option>Samsung</option>
+ <option>Motorola</option>
+ <option>Apple</option>
+ </select><br><br>
+ <label>Select Product:</label><br>
+ <input type="checkbox" name="type" value="Mobile"> Mobile
+ <input type="checkbox" name="type" value="Laptop"> Laptop
+ <br><br>
+ <label>Enter Quantity:</label><br>
+ <input type="number" id="quantity" min="1" style="width:100%; padding:6px;">
+ <br><br>
+ <button id="billBtn"
+ style="
+ width:100%;
+ padding:10px;
+ background:#28a745;
+ color:white;
+ border:none;
+ cursor:pointer;
+ ">
+ Produce Bill
+ </button>
+ <div id="resultBox"
+ style="
+ margin-top:15px;
+ padding:10px;
+ background:#f1f8ff;
+ border-left:4px solid #28a745;
+ display:none;
+ ">
+ </div>
+</div>
+</body>
+</html>
+Output
+2) Implement the bouncing ball using animate() function.
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Bouncing Ball Animation</title>
+ <meta charset="UTF-8">
+ <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+ <script>
+ $(document).ready(function () {
+ function bounceBall() {
+ $("#ball").animate(
+ { top: "300px" },
+ 600,
+ "swing",
+ function () {
+ $("#ball").animate(
+ { top: "20px" },
+ 600,
+ "swing",
+ bounceBall // recursive call for continuous bounce
+ );
+ }
+ );
+ }
+ $("#startBtn").click(function () {
+ bounceBall();
+ $(this).prop("disabled", true).text("Bouncing...");
+ });
+ });
+ </script>
+</head>
+<body style="
+ margin:0;
+ height:100vh;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ background:#eef2f7;
+ font-family:Arial;
+">
+ <button id="startBtn"
+ style="
+ padding:10px 20px;
+ background:#007bff;
+ color:white;
+ border:none;
+ cursor:pointer;
+ margin-bottom:30px;
+ ">
+ Start Bouncing
+ </button>
+ <div style="
+ width:400px;
+ height:350px;
+ border:2px solid #444;
+ position:relative;
+ background:white;
+ ">
+ <div id="ball"
+ style="
+ width:50px;
+ height:50px;
+ background:red;
+ border-radius:50%;
+ position:absolute;
+ top:20px;
+ left:175px;
+">
+ </div>
+ </div>
+</body>
+</html>
+Output
+3.Write a web page which displays image and show the sliding text on the image.
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Continuous Sliding Text</title>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" 
+rel="stylesheet">
+ <style>
+ body {
+ font-family: 'Roboto', sans-serif;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ min-height: 100vh;
+ background-color: #f4f4f4;
+ margin: 0;
+ }
+ .image-container {
+ position: relative;
+ width: 600px;
+ height: 400px;
+ overflow: hidden;
+ border-radius: 10px;
+ box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+ }
+ .image-container img {
+ width: 100%;
+ height: 100%;
+ display: block;
+ object-fit: cover;
+ }
+ .sliding-text {
+ position: absolute;
+ bottom: 20px;
+ left: -300px; 
+ white-space: nowrap;
+ background-color: rgba(0, 0, 0, 0.7);
+ color: white;
+ padding: 10px 20px;
+ border-radius: 5px;
+ font-size: 1.2em;
+ }
+ </style>
+</head>
+<body>
+ <div class="image-container">
+ <img src="SCENE.jpeg" alt="Landscape">
+ <div class="sliding-text">
+ HELLO !!!!
+ </div>
+ </div>
+ <script type="text/javascript">
+ $(document).ready(function() {
+ function moveRight() {
+ var containerWidth = $('.image-container').width();
+ var textWidth = $('.sliding-text').outerWidth();
+ $('.sliding-text').css('left', -textWidth);
+ $('.sliding-text').animate({
+ left: containerWidth
+ }, 5000, 'linear', function() {
+ moveRight();
+ });
+ }
+ moveRight();
+ });
+ </script>
+</body>
+</html>
+Output
