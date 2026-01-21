@@ -1,63 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Bootstrap Page Design</title><meta charset="utf-8">
+<title>Bootstrap Student Dashboard</title>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
 <!-- jQuery & Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<style>
+/* Background with soft pattern */
+body{
+    background: radial-gradient(circle at top, #fdfbfb, #ebedee);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Top dashboard card */
+.top-card{
+    border-radius: 0;
+    border-left: 8px solid #ffc107;
+}
+
+/* All cards */
+.card{
+    border-radius: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect for cards */
+.card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* Card headers */
+.card-header{
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Inputs */
+.form-control{
+    border-radius: 0;
+    border: 1px solid #ced4da;
+}
+
+/* Buttons */
+.btn{
+    border-radius: 0;
+    font-weight: 500;
+}
+
+/* Button group spacing */
+.btn-group .btn{
+    margin: 0 2px;
+}
+
+/* Badges look flatter */
+.badge{
+    font-size: 0.9rem;
+    border-radius: 4px;
+}
+
+/* Status text spacing */
+.card-body p{
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+</style>
+
 </head>
-<body class="bg-light">
+
+<body>
+
 <div class="container-fluid p-4">
-<div class="card mb-4 shadow">
+
+<!-- ================= TOP PART ================= -->
+<div class="card shadow mb-4 top-card">
 <div class="card-body bg-primary text-white">
-<h3 class="card-title">Student Management Dashboard</h3>
+
+<h3 class="text-center mb-3">Student Management Dashboard</h3>
+
 <!-- Input Group -->
-<div class="input-group mt-3 mb-3">
-<input type="text" class="form-control" placeholder="Search student">
+<div class="input-group mb-3">
+<input type="text" class="form-control" placeholder="Search student by name">
 <div class="input-group-append">
 <button class="btn btn-dark">Search</button>
 </div>
 </div>
+
 <!-- Badges -->
-<span class="badge badge-success">Active</span>
-<span class="badge badge-warning">Pending</span>
-<span class="badge badge-danger">Blocked</span>
+<div class="text-center mb-3">
+<span class="badge badge-success p-2">Active</span>
+<span class="badge badge-warning p-2">Pending</span>
+<span class="badge badge-danger p-2">Blocked</span>
+</div>
+
 <!-- Button Group -->
-<div class="btn-group mt-3">
+<div class="btn-group d-flex justify-content-center">
 <button class="btn btn-light">Home</button>
 <button class="btn btn-light">Profile</button>
 <button class="btn btn-light">Logout</button>
 </div>
+
 </div>
 </div>
-<div class="row"><!-- Bottom Part 1 -->
+
+<!-- ================= BOTTOM PART ================= -->
+<div class="row">
+
+<!-- Bottom Part 1 -->
 <div class="col-md-4 mb-3">
-<div class="card shadow">
-<div class="card-header bg-info text-white">
+<div class="card shadow h-100">
+<div class="card-header bg-info text-white text-center">
 Student Details
 </div>
 <div class="card-body">
 <input type="text" class="form-control mb-2" placeholder="Student Name">
 <input type="email" class="form-control mb-2" placeholder="Email">
 <input type="text" class="form-control mb-2" placeholder="Course">
-<button class="btn btn-info btn-block">Save</button>
+<button class="btn btn-info btn-block">Save Details</button>
 </div>
 </div>
 </div>
+
 <!-- Bottom Part 2 -->
 <div class="col-md-4 mb-3">
-<div class="card shadow">
-<div class="card-header bg-success text-white">
+<div class="card shadow h-100">
+<div class="card-header bg-success text-white text-center">
 Actions
 </div>
 <div class="card-body text-center">
-<button class="btn btn-success mb-2">Add</button>
-<button class="btn btn-warning mb-2">Update</button>
-<button class="btn btn-danger mb-2">Delete</button>
+<button class="btn btn-success mb-2 btn-block">Add Student</button>
+<button class="btn btn-warning mb-2 btn-block">Update Student</button>
+<button class="btn btn-danger mb-2 btn-block">Delete Student</button>
+
 <div class="btn-group mt-3">
 <button class="btn btn-outline-success">Approve</button>
 <button class="btn btn-outline-danger">Reject</button>
@@ -65,32 +147,38 @@ Actions
 </div>
 </div>
 </div>
+
 <!-- Bottom Part 3 -->
 <div class="col-md-4 mb-3">
-<div class="card shadow">
-<div class="card-header bg-dark text-white">
+<div class="card shadow h-100">
+<div class="card-header bg-dark text-white text-center">
 Status & Controls
 </div>
 <div class="card-body">
-<p>
-Total Students
-<span class="badge badge-primary float-right">120</span></p>
-<p>
-Registered
+
+<p>Total Students
+<span class="badge badge-primary float-right">120</span>
+</p>
+
+<p>Registered
 <span class="badge badge-success float-right">95</span>
 </p>
-<p>
-Pending
+
+<p>Pending
 <span class="badge badge-warning float-right">25</span>
 </p>
-<div class="btn-group btn-group-sm mt-3">
-<button class="btn btn-dark">Refresh</button>
-<button class="btn btn-secondary">Settings</button>
+
+<div class="btn-group btn-group-sm mt-3 d-flex">
+<button class="btn btn-dark flex-fill">Refresh</button>
+<button class="btn btn-secondary flex-fill">Settings</button>
+</div>
+
 </div>
 </div>
 </div>
+
 </div>
 </div>
-</div>
+
 </body>
 </html>
