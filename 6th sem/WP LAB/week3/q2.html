@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<title>Employee CRUD using jQuery</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container mt-4">
+<h2 class="text-center">Employee CRUD Operations (jQuery)</h2>
+<!-- Employee Form -->
+<div class="card mt-3">
+<div class="card-header bg-primary text-white">Employee Form</div>
+<div class="card-body">
+<form id="empForm">
+<div class="form-row">
+<div class="form-group col-md-3">
+<label>Employee ID</label>
+<input type="number" id="empId" class="form-control">
+</div>
+<div class="form-group col-md-3">
+<label>Name</label>
+<input type="text" id="empName" class="form-control">
+</div>
+<div class="form-group col-md-3">
+<label>Department</label>
+<input type="text" id="empDept" class="form-control">
+</div>
+<div class="form-group col-md-3">
+<label>Salary</label>
+<input type="number" id="empSalary" class="form-control">
+</div>
+</div>
+<button type="button" class="btn btn-success" id="addBtn">Add</button><button type="button" class="btn btn-warning" id="updateBtn">Update</button>
+<button type="reset" class="btn btn-secondary">Clear</button>
+</form>
+</div>
+</div>
+<!-- Employee Table -->
+<table class="table table-bordered table-striped mt-4">
+<thead class="thead-dark">
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Department</th>
+<th>Salary</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="empTable"></tbody>
+</table>
+</div>
+<script>
+$(document).ready(function () {
+let employees = [];
+let editIndex = -1;
+// CREATE
+$("#addBtn").click(function () {
+let emp = {
+id: $("#empId").val(),
+name: $("#empName").val(),
+dept: $("#empDept").val(),
+salary: $("#empSalary").val()
+};
+employees.push(emp);
+displayEmployees();
+$("#empForm")[0].reset();
+});
+// READ
+function displayEmployees() {
+$("#empTable").html("");$.each(employees, function (index, emp) {
+$("#empTable").append(`
+<tr>
+<td>${emp.id}</td>
+<td>${emp.name}</td>
+<td>${emp.dept}</td>
+<td>${emp.salary}</td>
+<td>
+<button class="btn btn-info btn-sm editBtn" data-index="${index}">Edit</button>
+<button class="btn btn-danger btn-sm deleteBtn" data-
+index="${index}">Delete</button>
+</td>
+</tr>
+`);
+});
+}
+// DELETE
+$(document).on("click", ".deleteBtn", function () {
+let index = $(this).data("index");
+employees.splice(index, 1);
+displayEmployees();
+});
+// EDIT
+$(document).on("click", ".editBtn", function () {
+editIndex = $(this).data("index");
+$("#empId").val(employees[editIndex].id);
+$("#empName").val(employees[editIndex].name);
+$("#empDept").val(employees[editIndex].dept);
+$("#empSalary").val(employees[editIndex].salary);
+});
+// UPDATE
+$("#updateBtn").click(function () {
+if (editIndex !== -1) {
+employees[editIndex] = {
+id: $("#empId").val(),
+name: $("#empName").val(),
+dept: $("#empDept").val(),
+salary: $("#empSalary").val()
+};
+displayEmployees();
+$("#empForm")[0].reset();
+editIndex = -1;
+}
+});
+});
+</script>
+</body>
+</html>
