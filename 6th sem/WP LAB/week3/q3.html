@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Bootstrap Page Design</title><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<!-- jQuery & Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body class="bg-light">
+<div class="container-fluid p-4">
+<div class="card mb-4 shadow">
+<div class="card-body bg-primary text-white">
+<h3 class="card-title">Student Management Dashboard</h3>
+<!-- Input Group -->
+<div class="input-group mt-3 mb-3">
+<input type="text" class="form-control" placeholder="Search student">
+<div class="input-group-append">
+<button class="btn btn-dark">Search</button>
+</div>
+</div>
+<!-- Badges -->
+<span class="badge badge-success">Active</span>
+<span class="badge badge-warning">Pending</span>
+<span class="badge badge-danger">Blocked</span>
+<!-- Button Group -->
+<div class="btn-group mt-3">
+<button class="btn btn-light">Home</button>
+<button class="btn btn-light">Profile</button>
+<button class="btn btn-light">Logout</button>
+</div>
+</div>
+</div>
+<div class="row"><!-- Bottom Part 1 -->
+<div class="col-md-4 mb-3">
+<div class="card shadow">
+<div class="card-header bg-info text-white">
+Student Details
+</div>
+<div class="card-body">
+<input type="text" class="form-control mb-2" placeholder="Student Name">
+<input type="email" class="form-control mb-2" placeholder="Email">
+<input type="text" class="form-control mb-2" placeholder="Course">
+<button class="btn btn-info btn-block">Save</button>
+</div>
+</div>
+</div>
+<!-- Bottom Part 2 -->
+<div class="col-md-4 mb-3">
+<div class="card shadow">
+<div class="card-header bg-success text-white">
+Actions
+</div>
+<div class="card-body text-center">
+<button class="btn btn-success mb-2">Add</button>
+<button class="btn btn-warning mb-2">Update</button>
+<button class="btn btn-danger mb-2">Delete</button>
+<div class="btn-group mt-3">
+<button class="btn btn-outline-success">Approve</button>
+<button class="btn btn-outline-danger">Reject</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Part 3 -->
+<div class="col-md-4 mb-3">
+<div class="card shadow">
+<div class="card-header bg-dark text-white">
+Status & Controls
+</div>
+<div class="card-body">
+<p>
+Total Students
+<span class="badge badge-primary float-right">120</span></p>
+<p>
+Registered
+<span class="badge badge-success float-right">95</span>
+</p>
+<p>
+Pending
+<span class="badge badge-warning float-right">25</span>
+</p>
+<div class="btn-group btn-group-sm mt-3">
+<button class="btn btn-dark">Refresh</button>
+<button class="btn btn-secondary">Settings</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
