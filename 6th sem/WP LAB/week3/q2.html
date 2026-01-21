@@ -1,47 +1,111 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <title>Employee CRUD using jQuery</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
 href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<style>
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(to right, #1d2671, #4e1b2b);
+    color: #fff;
+}
+
+.card {
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.card-header {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+label {
+    font-weight: 600;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
+.btn {
+    border-radius: 20px;
+}
+
+.table {
+    background: white;
+    color: black;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f2f2f2;
+}
+</style>
 </head>
+
 <body>
-<div class="container mt-4">
-<h2 class="text-center">Employee CRUD Operations (jQuery)</h2>
+
+<div class="container mt-5">
+
+<h2 class="text-center mb-4">
+<span class="badge badge-warning p-3">
+Employee CRUD Operations
+</span>
+</h2>
+
 <!-- Employee Form -->
-<div class="card mt-3">
-<div class="card-header bg-primary text-white">Employee Form</div>
-<div class="card-body">
+<div class="card">
+<div class="card-header bg-dark text-warning text-center">
+Employee Form
+</div>
+
+<div class="card-body text-dark">
 <form id="empForm">
+
 <div class="form-row">
 <div class="form-group col-md-3">
 <label>Employee ID</label>
 <input type="number" id="empId" class="form-control">
 </div>
+
 <div class="form-group col-md-3">
 <label>Name</label>
 <input type="text" id="empName" class="form-control">
 </div>
+
 <div class="form-group col-md-3">
 <label>Department</label>
 <input type="text" id="empDept" class="form-control">
 </div>
+
 <div class="form-group col-md-3">
 <label>Salary</label>
 <input type="number" id="empSalary" class="form-control">
 </div>
 </div>
-<button type="button" class="btn btn-success" id="addBtn">Add</button><button type="button" class="btn btn-warning" id="updateBtn">Update</button>
-<button type="reset" class="btn btn-secondary">Clear</button>
+
+<button type="button" class="btn btn-success px-4" id="addBtn">Add</button>
+<button type="button" class="btn btn-info px-4" id="updateBtn">Update</button>
+<button type="reset" class="btn btn-secondary px-4">Clear</button>
+
 </form>
 </div>
 </div>
+
 <!-- Employee Table -->
-<table class="table table-bordered table-striped mt-4">
+<table class="table table-bordered table-hover mt-4">
 <thead class="thead-dark">
 <tr>
 <th>ID</th>
@@ -53,11 +117,15 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </thead>
 <tbody id="empTable"></tbody>
 </table>
+
 </div>
+
 <script>
 $(document).ready(function () {
+
 let employees = [];
 let editIndex = -1;
+
 // CREATE
 $("#addBtn").click(function () {
 let emp = {
@@ -70,9 +138,11 @@ employees.push(emp);
 displayEmployees();
 $("#empForm")[0].reset();
 });
+
 // READ
 function displayEmployees() {
-$("#empTable").html("");$.each(employees, function (index, emp) {
+$("#empTable").html("");
+$.each(employees, function (index, emp) {
 $("#empTable").append(`
 <tr>
 <td>${emp.id}</td>
@@ -80,20 +150,21 @@ $("#empTable").append(`
 <td>${emp.dept}</td>
 <td>${emp.salary}</td>
 <td>
-<button class="btn btn-info btn-sm editBtn" data-index="${index}">Edit</button>
-<button class="btn btn-danger btn-sm deleteBtn" data-
-index="${index}">Delete</button>
+<button class="btn btn-warning btn-sm editBtn" data-index="${index}">Edit</button>
+<button class="btn btn-danger btn-sm deleteBtn" data-index="${index}">Delete</button>
 </td>
 </tr>
 `);
 });
 }
+
 // DELETE
 $(document).on("click", ".deleteBtn", function () {
 let index = $(this).data("index");
 employees.splice(index, 1);
 displayEmployees();
 });
+
 // EDIT
 $(document).on("click", ".editBtn", function () {
 editIndex = $(this).data("index");
@@ -102,6 +173,7 @@ $("#empName").val(employees[editIndex].name);
 $("#empDept").val(employees[editIndex].dept);
 $("#empSalary").val(employees[editIndex].salary);
 });
+
 // UPDATE
 $("#updateBtn").click(function () {
 if (editIndex !== -1) {
@@ -116,7 +188,9 @@ $("#empForm")[0].reset();
 editIndex = -1;
 }
 });
+
 });
 </script>
+
 </body>
 </html>
