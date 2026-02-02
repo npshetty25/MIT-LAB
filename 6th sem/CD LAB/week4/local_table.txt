@@ -1,0 +1,9 @@
+========== LOCAL SYMBOL TABLE ==========
+Hash  Lexeme Name          Type            Size       Return Type    
+------------------------------------------------------------------------
+51    sum                  variable        4          int            
+65    arr                  variable        4          int            
+97    a                    variable        4          int            
+98    b                    variable        4          int            
+
+Total Symbols: 4
