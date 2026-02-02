@@ -1,0 +1,18 @@
+#define MAX_VALUE 100
+
+/*
+this is a 
+multiline comment
+*/
+
+int func (int a, int b) {
+    return a + b;
+}
+
+void main(int argc, char *argv[])
+{
+int a,b, sum , arr[1];
+a = 1; // this is a single line comment
+b = 1;
+sum = a + b;
+}
