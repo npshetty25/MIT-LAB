@@ -21,7 +21,7 @@ const char *keywords[] = {"auto", "break", "case", "char", "const", "continue",
     "default", "do", "double", "else", "enum", "extern", "float", "for", "goto",
     "if", "int", "long", "register", "return", "short", "signed", "sizeof", 
     "static", "struct", "switch", "typedef", "union", "unsigned", "void", 
-    "volatile", "while"};
+    "volatile", "while", "if", "else", "printf"};
 
 // ============ TOKEN IDENTIFICATION FUNCTIONS ============
 
@@ -68,7 +68,7 @@ char* preprocessSource(const char *fileName) {
         return NULL;
     }
     
-    char *out = malloc(MAX_SOURCE_SIZE);
+    char *out = (char *)malloc(MAX_SOURCE_SIZE);
     if (!out) {
         printf("Error: Memory allocation failed\n");
         fclose(f);
