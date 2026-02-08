@@ -1,0 +1,11 @@
+#include <stdio.h>
+void main() {
+    // this is a comment
+    /*
+        this is a comment
+    */
+    int a, b, c = 20, d = 89, evariable = 10;
+    printf("enter two numbers ");
+    scanf("%d %d", &a, &b);
+    printf("sum is: %d\n", (a + b));
+}
