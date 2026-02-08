@@ -1,0 +1,11 @@
+#include <stdio.h>
+void main() {
+    // THIS IS a COMMENT
+    /*
+        THIS IS a COMMENT
+    */
+    int a, b, c = 20, D = 89, eVARIABLE = 10;
+    WRITE("Enter two numbers ");
+    READ("%d %d", &a, &b);
+    WRITE("Sum is: %d\n", (a + b));
+}
