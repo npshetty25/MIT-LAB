@@ -193,105 +193,182 @@ void skipWhitespace(Lexer *lex) {
 }
 
 Token getNextToken(Lexer *lex) {
+    // Token structure to store the extracted token
     Token tok;
+
+    // Initialize all fields of token to zero
     memset(&tok, 0, sizeof(Token));
     
+    // Skip spaces, tabs, and newlines before tokenizing
     skipWhitespace(lex);
     
+    // Save the starting position of the token
     int startRow = lex->row;
     int startCol = lex->col;
+
+    // Look at the current character without consuming it
     char ch = peek(lex);
     
-    // EOF
+    // ---------- END OF FILE ----------
+    // If no more characters are left in source
     if (ch == '\0') {
+        // Mark token as EOF
         strcpy(tok.lexeme, "EOF");
+
+        // Store position of EOF
         tok.row = startRow;
         tok.column = startCol;
+
+        // Return EOF token
         return tok;
     }
     
-    // Identifier or Keyword
+    // ---------- IDENTIFIER OR KEYWORD ----------
+    // If token starts with letter or underscore
     if (isalpha(ch) || ch == '_') {
         int i = 0;
-        while ((isalnum(peek(lex)) || peek(lex) == '_') && i < MAX_TOKEN_LENGTH - 1) {
+
+        // Read characters while they are valid identifier characters
+        while ((isalnum(peek(lex)) || peek(lex) == '_') &&
+               i < MAX_TOKEN_LENGTH - 1) {
+
+            // Consume character and store in lexeme
             tok.lexeme[i++] = advance(lex);
         }
+
+        // Null-terminate the identifier
         tok.lexeme[i] = '\0';
+
+        // Store starting position of token
         tok.row = startRow;
-        tok. column = startCol;
+        tok.column = startCol;
+
+        // Return identifier or keyword token
         return tok;
     }
     
-    // Number
+    // ---------- NUMBER ----------
+    // If token starts with a digit
     if (isdigit(ch)) {
         int i = 0;
-        while ((isdigit(peek(lex)) || peek(lex) == '.') && i < MAX_TOKEN_LENGTH - 1) {
+
+        // Read digits (and decimal point for float numbers)
+        while ((isdigit(peek(lex)) || peek(lex) == '.') &&
+               i < MAX_TOKEN_LENGTH - 1) {
+
+            // Consume character and add to lexeme
             tok.lexeme[i++] = advance(lex);
         }
+
+        // Null-terminate the number token
         tok.lexeme[i] = '\0';
-        tok. row = startRow;
+
+        // Store token position
+        tok.row = startRow;
         tok.column = startCol;
+
+        // Return numeric token
         return tok;
     }
     
-    // String
+    // ---------- STRING LITERAL ----------
+    // If token starts with double quote
     if (ch == '"') {
+
+        // Skip opening quote
         advance(lex);
+
+        // Read until closing quote or end of file
         while (peek(lex) != '"' && peek(lex) != '\0') {
+
+            // Handle escaped characters inside string
             if (peek(lex) == '\\') {
-                advance(lex);
-                if (peek(lex)) advance(lex);
+                advance(lex);        // Skip escape character
+                if (peek(lex))
+                    advance(lex);    // Skip escaped character
             } else {
-                advance(lex);
+                advance(lex);        // Normal character
             }
         }
-        if (peek(lex) == '"') advance(lex);
+
+        // Skip closing quote
+        if (peek(lex) == '"')
+            advance(lex);
+
+        // Store generic string token name
         strcpy(tok.lexeme, "str");
+
+        // Store token position
         tok.row = startRow;
         tok.column = startCol;
+
+        // Return string token
         return tok;
     }
     
-    // Special Symbols
+    // ---------- SPECIAL SYMBOLS ----------
+    // If character is one of {}[]();,.
     if (isSpecialSymbol(ch)) {
+
+        // Store the symbol as token
         tok.lexeme[0] = advance(lex);
         tok.lexeme[1] = '\0';
+
+        // Store token position
         tok.row = startRow;
         tok.column = startCol;
+
+        // Return special symbol token
         return tok;
     }
     
-    // Operators (including 2-char)
+    // ---------- OPERATORS ----------
+    // If character is an operator symbol
     if (strchr("+-*/%<>=! &|^~", ch)) {
+
+        // Store first operator character
         tok.lexeme[0] = advance(lex);
         tok.lexeme[1] = '\0';
+
+        // Peek next character to check for 2-character operator
         char next = peek(lex);
         
+        // Check for multi-character operators
         if ((tok.lexeme[0] == '+' && next == '+') ||
             (tok.lexeme[0] == '-' && next == '-') ||
-            (tok. lexeme[0] == '=' && next == '=') ||
+            (tok.lexeme[0] == '=' && next == '=') ||
             (tok.lexeme[0] == '!' && next == '=') ||
-            (tok. lexeme[0] == '<' && next == '=') ||
+            (tok.lexeme[0] == '<' && next == '=') ||
             (tok.lexeme[0] == '>' && next == '=') ||
             (tok.lexeme[0] == '&' && next == '&') ||
             (tok.lexeme[0] == '|' && next == '|') ||
-            (tok. lexeme[0] == '-' && next == '>') ||
+            (tok.lexeme[0] == '-' && next == '>') ||
             (tok.lexeme[0] == '<' && next == '<') ||
             (tok.lexeme[0] == '>' && next == '>')) {
+
+            // Append second character of operator
             tok.lexeme[1] = advance(lex);
             tok.lexeme[2] = '\0';
         }
-        
+
+        // Store operator position
         tok.row = startRow;
         tok.column = startCol;
+
+        // Return operator token
         return tok;
     }
     
-    // Unknown
+    // ---------- UNKNOWN CHARACTER ----------
+    // If character does not match any known pattern
     tok.lexeme[0] = advance(lex);
     tok.lexeme[1] = '\0';
+
+    // Store token position
     tok.row = startRow;
-    tok. column = startCol;
+    tok.column = startCol;
+
+    // Return unknown token
     return tok;
 }
 
