@@ -41,7 +41,8 @@ bool isLogicalOp(const char *s) {
 }
 
 bool isKeyword(const char *s) {
-    for (int i = 0; i < 32; i++)
+    int numKeywords = sizeof(keywords) / sizeof(keywords[0]);
+    for (int i = 0; i < numKeywords; i++)
         if (strcmp(s, keywords[i]) == 0) return true;
     return false;
 }
@@ -303,7 +304,7 @@ void printToken(Token tok, int *lastRow, FILE *out) {
     }
     *lastRow = tok.row;
     
-    char output[100];
+    char output[300];
     
     if (strcmp(tok.lexeme, "EOF") == 0) {
         sprintf(output, "\n<EOF,%d,%d>\n", tok. row, tok.column);
@@ -312,11 +313,11 @@ void printToken(Token tok, int *lastRow, FILE *out) {
     } else if (isdigit(tok.lexeme[0])) {
         sprintf(output, "<num,%d,%d>", tok.row, tok.column);
     } else if (isKeyword(tok.lexeme)) {
-        sprintf(output, "<%s,%d,%d>", tok.lexeme, tok.row, tok.column);
+        snprintf(output, sizeof(output), "<%s,%d,%d>", tok.lexeme, tok.row, tok.column);
     } else if (isIdentifier(tok.lexeme)) {
         sprintf(output, "<id,%d,%d>", tok. row, tok.column);
     } else {
-        sprintf(output, "<%s,%d,%d>", tok.lexeme, tok.row, tok.column);
+        snprintf(output, sizeof(output), "<%s,%d,%d>", tok.lexeme, tok.row, tok.column);
     }
     
     fprintf(out, "%s", output);
