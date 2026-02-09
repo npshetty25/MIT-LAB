@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+#include "la.h"
 
 #define TABLE_SIZE 100
 
@@ -119,7 +116,7 @@ void display(SymbolTable *st) {
 }
 
 /* ================= UTILS ================= */
-int isKeyword(const char *str) {
+int isTypeKeyword(const char *str) {
     const char *keywords[] = {
         "int", "char", "bool", "float", "double", "void", NULL
     };
@@ -138,135 +135,54 @@ int getSize(const char *type) {
     return 0;
 }
 
-/* ================= REMOVE COMMENTS ================= */
-char* removeComments(const char *fileName) {
-    FILE *fp = fopen(fileName, "r");
-    if (!fp) return NULL;
-    
-    // Get file size
-    fseek(fp, 0, SEEK_END);
-    long size = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
-    
-    char *content = (char *)malloc(size + 1);
-    char *result = (char *)malloc(size + 1);
-    fread(content, 1, size, fp);
-    content[size] = '\0';
-    fclose(fp);
-    
-    int i = 0, j = 0;
-    while (i < size) {
-        // String literals - skip completely
-        if (content[i] == '"') {
-            i++;
-            while (i < size) {
-                if (content[i] == '"' && (i == 0 || content[i-1] != '\\')) {
-                    i++;
-                    break;
-                }
-                i++;
-            }
-            result[j++] = ' '; // Replace with space
-        }
-        // Single-line comment
-        else if (content[i] == '/' && i+1 < size && content[i+1] == '/') {
-            while (i < size && content[i] != '\n') i++;
-        }
-        // Multi-line comment
-        else if (content[i] == '/' && i+1 < size && content[i+1] == '*') {
-            i += 2;
-            while (i < size - 1 && !(content[i] == '*' && content[i+1] == '/')) i++;
-            i += 2;
-        }
-        // Preprocessor directives
-        else if (content[i] == '#') {
-            while (i < size && content[i] != '\n') i++;
-        }
-        else {
-            result[j++] = content[i++];
-        }
-    }
-    result[j] = '\0';
-    free(content);
-    return result;
-}
-
 /* ================= MAIN ================= */
 int main() {
-   char fileName[100];
+    char fileName[100];
     printf("Enter filename: ");
     scanf("%s", fileName);
     
-    // Remove comments
-    char *source = removeComments(fileName);
+    // Use preprocessSource from la.h
+    char *source = preprocessSource(fileName);
     if (!source) {
         printf("\n[ERROR] Failed to read file!\n");
         return 1;
     }
     
-    printf("\n[INFO] Reading file: %s\n", fileName);
+    printf("\n[INFO] File preprocessed successfully\n");
 
     SymbolTable st;
     initSymbolTable(&st);
 
-    // Parse tokens manually to detect functions
-    int i = 0;
-    char currentType[20] = "";
+    // Use Lexer from la.h to parse tokens
+    Lexer lexer;
+    initLexer(&lexer, source);
     
-    while (i < strlen(source)) {
-        // Skip whitespace
-        while (i < strlen(source) && isspace(source[i])) i++;
-        if (i >= strlen(source)) break;
+    char currentType[20] = "";
+    Token tok;
+    
+    while (1) {
+        tok = getNextToken(&lexer);
         
-        // Read token
-        char token[100] = "";
-        int ti = 0;
-        while (i < strlen(source) && !isspace(source[i]) && 
-               source[i] != '(' && source[i] != ')' && 
-               source[i] != '{' && source[i] != '}' &&
-               source[i] != '[' && source[i] != ']' &&
-               source[i] != ',' && source[i] != ';' &&
-               source[i] != '*' && source[i] != '=' &&
-               source[i] != '+' && source[i] != '-' &&
-               source[i] != '/' && source[i] != '%' &&
-               source[i] != '<' && source[i] != '>' &&
-               source[i] != '!' && source[i] != '&' &&
-               source[i] != '|') {
-            token[ti++] = source[i++];
-        }
-        token[ti] = '\0';
+        // End of file
+        if (strcmp(tok.lexeme, "EOF") == 0)
+            break;
         
-        if (strlen(token) == 0) {
-            // Just skip the delimiter
-            if (i < strlen(source) && !isspace(source[i])) i++;
-            continue;
+        // Check if it's a type keyword
+        if (isTypeKeyword(tok.lexeme)) {
+            strcpy(currentType, tok.lexeme);
         }
-        
-        // Check if keyword
-        if (isKeyword(token)) {
-            strcpy(currentType, token);
-            // Skip delimiter after keyword
-            if (i < strlen(source) && !isspace(source[i])) i++;
-        }
-        // Check if identifier
-        else if (currentType[0] && isalpha(token[0])) {
-            // Look ahead to see if this is a function
-            int j = i;
-            while (j < strlen(source) && isspace(source[j])) j++;
+        // Check if it's an identifier and we have a current type
+        else if (currentType[0] && isIdentifier(tok.lexeme)) {
+            // Get next token to check if it's a function
+            Token nextTok = getNextToken(&lexer);
             
-            if (j < strlen(source) && source[j] == '(') {
+            if (strcmp(nextTok.lexeme, "(") == 0) {
                 // It's a function
-                insert(&st, token, "FUNCTION", 0, currentType);
+                insert(&st, tok.lexeme, "FUNCTION", 0, currentType);
             } else {
                 // It's a variable
-                insert(&st, token, currentType, getSize(currentType), "-");
+                insert(&st, tok.lexeme, currentType, getSize(currentType), "-");
             }
-            // Skip delimiter after identifier
-            if (i < strlen(source) && !isspace(source[i])) i++;
-        }
-        else {
-            // Skip delimiter for other cases
-            if (i < strlen(source) && !isspace(source[i])) i++;
         }
     }
 
