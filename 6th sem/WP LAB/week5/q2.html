@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q2PromotionEligibilityCheck</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body class="container mt-5 bg-dark text-white">
+    <h2 class="text-center mb-4">Promotion Eligibility Check</h2>
+    <div class="card" style="background-color: black;">
+        <div class="card-header" style="background-color: rgb(80, 80, 80);">
+            Check Eligibility
+        </div>
+        <div class="card-body">
+            <form id="eligibilityCheckForm">
+                <div class="form-group">
+                    Employee ID:
+                    <input type="text" class="form-control bg-dark text-white" id="employeeID" required>
+                </div>
+                <div class="form-group">
+                    Date of joining:
+                    <input type="date" class="form-control bg-dark text-white" id="employeeDOJ" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Am I eligible for promotion</button>
+            </form>
+        </div>
+        <h3 class="mt-4 ml-4" id="result"></h3>
+    </div>
+    <script>
+
+        $('#eligibilityCheckForm').submit(function (event) {
+            event.preventDefault();
+            const eid = $('#employeeID').val();
+            const doj = new Date($('#employeeDOJ').val());
+            const date1 = new Date();
+            const diff = date1 - doj;
+            const yearsDiff = diff / 1000 / 60 / 60 / 24 / 365;
+            if (yearsDiff >= 5)
+                $('#result').text("Yes");
+            else
+                $('#result').text("No");
+        });
+    </script>
+</body>
+</html>
